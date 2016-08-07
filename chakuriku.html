@@ -1,0 +1,119 @@
+<html>
+	<head>
+		<title>着陸ゲーム</title>
+		<script type="text/JavaScript">		
+			velo = 1; //初速度
+			accel = 0.25; //加速度
+			brake = 1; //減速度
+			
+			//ボールを座標指定
+			function setBallPosition(id, x, y) {
+				document.getElementById(id).style.left = x;
+				document.getElementById(id).style.top  = y;		  
+			}
+			
+			//ボールのX座標取得
+			function getX(id){
+				return( parseInt(document.getElementById(id).style.left) );
+			}
+			
+			//ボールのY座標取得
+			function getY(id){
+				return( parseInt(document.getElementById(id).style.top) );
+			}
+			
+			//ボールを動かす
+			function moveBall(x, y){
+				ballX = getX("blueBall");
+				ballY = getY("blueBall");
+				
+				ballX += x;
+				ballY += y;
+				setBallPosition("blueBall", ballX, ballY);
+			}
+			
+			function gameBody() {
+				moveBall(0,velo);
+				if(getY("blueBall") < 400){
+					velo += accel;
+					gameStart();
+				}
+				else{
+					if(velo < 2){
+						alert("着陸成功！(時速" + velo + "km)");
+					}
+					else{
+						alert("着陸失敗・・・(時速" + velo + "km)");
+					}
+				}
+			}
+			
+			//開始
+			function gameStart(){
+				timerID = setTimeout("gameBody()", 50);
+			}
+			
+			//停止
+			function gameStop(){
+				clearTimeout(timerID);
+			}
+			
+			//減速
+			function braking(){
+				velo -= brake;
+			}
+			
+			//リセット
+			function reset(){
+				clearTimeout(timerID);
+				setBallPosition("blueBall", 128, 8);
+				velo = 1;
+			}
+		</script>
+		
+		<style type="text/css">
+			body{
+				width : 256px;
+				height : 410px;
+			}
+		
+			#main {
+				width : 100%;
+				height : 100%;
+				border : solid 1px black;
+			}
+		
+			#blueBall {
+				position : absolute;
+			}
+			
+			a {
+				display : inline-block;
+				margin-top : 10px;			
+			}
+			
+			.left-button{
+				margin-right : 10px;	
+				float : left;
+			}
+			
+			.right-button{
+				float : right;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="main">
+			<div id="blueBall" style="left:128px; top:8px;">
+				<img src="img/bb01.gif">
+			</div>
+		</div>
+		<a class="left-button" href="JavaScript:gameStart()">開始</a>
+		<a class="left-button" href="JavaScript:gameStop()">停止</a>
+		<a class="left-button" href="JavaScript:braking()">減速</a>
+		<a class="right-button" href="JavaScript:reset()">リセット</a>
+	</body>
+
+</html>
