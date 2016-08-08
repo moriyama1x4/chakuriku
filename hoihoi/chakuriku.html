@@ -1,107 +1,8 @@
-<html>
+ï»¿<html>
 	<head>
-		<title>’…—¤ƒQ[ƒ€</title>
-		<script type="text/JavaScript">		
-			velo = 1; //‰‘¬“x
-			accel = 0.25; //‰Á‘¬“x
-			brake = 1; //Œ¸‘¬“x
-			
-			//ƒ{[ƒ‹‚ğÀ•Ww’è
-			function setBallPosition(id, x, y) {
-				document.getElementById(id).style.left = x;
-				document.getElementById(id).style.top  = y;		  
-			}
-			
-			//ƒ{[ƒ‹‚ÌXÀ•Wæ“¾
-			function getX(id){
-				return( parseInt(document.getElementById(id).style.left) );
-			}
-			
-			//ƒ{[ƒ‹‚ÌYÀ•Wæ“¾
-			function getY(id){
-				return( parseInt(document.getElementById(id).style.top) );
-			}
-			
-			//ƒ{[ƒ‹‚ğ“®‚©‚·
-			function moveBall(x, y){
-				ballX = getX("blueBall");
-				ballY = getY("blueBall");
-				
-				ballX += x;
-				ballY += y;
-				setBallPosition("blueBall", ballX, ballY);
-			}
-			
-			function gameBody() {
-				moveBall(0,velo);
-				if(getY("blueBall") < 400){
-					velo += accel;
-					gameStart();
-				}
-				else{
-					if(velo < 2){
-						alert("’…—¤¬Œ÷I(‘¬" + velo + "km)");
-					}
-					else{
-						alert("’…—¤¸”sEEE(‘¬" + velo + "km)");
-					}
-				}
-			}
-			
-			//ŠJn
-			function gameStart(){
-				timerID = setTimeout("gameBody()", 50);
-			}
-			
-			//’â~
-			function gameStop(){
-				clearTimeout(timerID);
-			}
-			
-			//Œ¸‘¬
-			function braking(){
-				velo -= brake;
-			}
-			
-			//ƒŠƒZƒbƒg
-			function reset(){
-				clearTimeout(timerID);
-				setBallPosition("blueBall", 128, 8);
-				velo = 1;
-			}
-		</script>
-		
-		<style type="text/css">
-			body{
-				width : 256px;
-				height : 410px;
-			}
-		
-			#main {
-				width : 100%;
-				height : 100%;
-				border : solid 1px black;
-			}
-		
-			#blueBall {
-				position : absolute;
-			}
-			
-			a {
-				display : inline-block;
-				margin-top : 10px;			
-			}
-			
-			.left-button{
-				margin-right : 10px;	
-				float : left;
-			}
-			
-			.right-button{
-				float : right;
-			}
-			
-		</style>
+		<title>ç€é™¸ã‚²ãƒ¼ãƒ </title>
+		<script type="text/javascript" src="./chakuriku.js"></script>
+		<link rel="stylesheet" type="text/css" href="./chakuriku.css">
 	</head>
 
 	<body>
@@ -110,10 +11,10 @@
 				<img src="img/bb01.gif">
 			</div>
 		</div>
-		<a class="left-button" href="JavaScript:gameStart()">ŠJn</a>
-		<a class="left-button" href="JavaScript:gameStop()">’â~</a>
-		<a class="left-button" href="JavaScript:braking()">Œ¸‘¬</a>
-		<a class="right-button" href="JavaScript:reset()">ƒŠƒZƒbƒg</a>
+		<a class="left-button" href="JavaScript:gameStart()">é–‹å§‹</a>
+		<a class="left-button" href="JavaScript:gameStop()">åœæ­¢</a>
+		<a class="left-button" href="JavaScript:braking()">æ¸›é€Ÿ</a>
+		<a class="right-button" href="JavaScript:reset()">ãƒªã‚»ãƒƒãƒˆ</a>
 	</body>
 
 </html>
