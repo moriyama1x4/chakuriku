@@ -1,14 +1,27 @@
-﻿var defPosition = [128,8]; //初期位置
-var defVelo = 1; //デフォルト速度
-var velo = defVelo; //速度
-var defAccel = 0.1; //デフォルト加速度
-var accel = defAccel; //加速度
-var brake = 1; //減速度
+﻿var defPosition = [8,200]; //初期位置
+
+var defVeloX = 5; //デフォルトX速度
+var veloX = defVeloX; //X速度
+var defVeloY = -5; //デフォルトY速度
+var veloY = defVeloY; //Y速度
+
+var accelX = 1; //X加速度
+var defAccelY = 0.1; //デフォルトY加速度
+var accelY = defAccelY; //Y加速度
+
+var brakeX = 1; //X減速度
+var brakeY = 1; //Y減速度
+
 var defWinLose = 6; //デフォルト勝敗判定値
 var winLose = defWinLose; //勝敗判定値
+
 var defLevel = 1; //デフォルトレベル
 var maxLevel = 5; //最大レベル
 var level = defLevel; //レベル
+
+var defLandWidth = 250; //デフォルト地面幅
+var landWidth = defLandWidth; //地面幅
+
 var timer;　//タイマー
 
 //ボールを座標指定
@@ -16,6 +29,8 @@ function setPosition(id, x, y) {
     document.getElementById(id).style.left = x;
     document.getElementById(id).style.top  = y;		  
 }
+
+
 
 //ボールのX座標取得
 function getX(id){
@@ -37,30 +52,61 @@ function moveBall(x, y){
     setPosition("blueBall", ballX, ballY);
 }
 
+//地面を作る
+function setLand(width, x){
+     document.getElementById("land").style.width = width;
+     document.getElementById("land").style.left = x;
+}
+
+//400pxより右のランダムな位置に地面をつくる
+function setRandLand(){
+    setLand(landWidth, Math.floor(Math.random() * (400 - landWidth) ) + 400)
+}
+
+//地面の左端座標取得
+function getLandLeft(){
+    return parseInt(document.getElementById("land").style.left) ;
+}
+
+//地面の右端座標取得
+function getLandRight(){
+    return parseInt(document.getElementById("land").style.width) + getLandLeft() ;
+}
+
 function gameBody() {
-    moveBall(0,velo);
-    if(getY("blueBall") < 400){
-        velo += accel;
+    moveBall(veloX,veloY);
+    
+    if(getX("blueBall") > 800){
+        alert("着陸失敗・・・(壁に衝突)。 またレベル1からチャレンジ！");
+        reset();
+        restart();
+    }
+    else if(getY("blueBall") < 400){
+        veloY += accelY;
+    }
+    else if(getX("blueBall") < getLandLeft() || getX("blueBall") > getLandRight()){
+        alert("着陸失敗・・・(地面に着地できなかった)。 またレベル1からチャレンジ！");
+        reset();
+        restart();
     }
     else{
-        console.log("level = " + level);
-        console.log("accel = " + accel);
-        console.log("winLose = " + winLose)
-        if(velo < winLose){
+        if(veloX < winLose){
             if(level >= maxLevel){
-                alert("着陸成功！(時速" + (Math.round(velo * 10) / 10) + "km)。 最大レベルクリア！");
+                alert("着陸成功！(時速" + (Math.round(veloY * 10) / 10) + "km)。 最大レベルクリア！");
                 reset();
             }
             else{
-                alert("着陸成功！(時速" + (Math.round(velo * 10) / 10) + "km)。 レベル"　+ (level+1) + "にチャレンジ！");
+                alert("着陸成功！(時速" + (Math.round(veloY * 10) / 10) + "km)。 レベル"　+ (level+1) + "にチャレンジ！");
                 level ++;
-                accel = defAccel + ((level - defLevel) * 0.05);
+                accelY = defAccelY + ((level - defLevel) * 0.05);
                 winLose = defWinLose - ((level - defLevel) * 1);
-                document.getElementById("level-num").innerHTML=level
+                landWidth = defLandWidth - ((level - defLevel) * 50);
+                setRandLand();
+                document.getElementById("level-num").innerHTML=level;
             }
         }
         else{
-            alert("着陸失敗・・・(時速" + (Math.round(velo * 10) / 10) + "km)。 またレベル1からチャレンジ！");
+            alert("着陸失敗・・・(時速" + (Math.round(veloY * 10) / 10) + "km)。 またレベル1からチャレンジ！");
             reset();
         }
         restart();
@@ -77,22 +123,39 @@ function gameStop(){
     clearInterval(timer);
 }
 
-//減速
-function braking(){
-    velo -= brake;
+//X加速
+function accelerateX(){
+    veloX += accelX;
+}
+
+//X減速
+function brakingX(){
+    veloX -= brakeX;
+}
+
+//Y減速
+function brakingY(){
+    veloY -= brakeY;
 }
 
 //リスタート
 function restart(){
     clearInterval(timer);
     setPosition("blueBall", defPosition[0], defPosition[1]);
-    velo = defVelo;
+    veloX = defVeloX;
+    veloY = defVeloY;
+    setRandLand();
 }
 
 //リセット
 function reset(){
     level = defLevel;
-    accel = defAccel;
+    accelY = defAccelY;
     winLose = defWinLose;
+    landWidth = defLandWidth;
     document.getElementById("level-num").innerHTML=defLevel;
+}
+
+window.onload = function(){
+    restart();
 }

@@ -1,5 +1,5 @@
 ﻿body{
-    width : 256px;
+    width : 800px;
     height : 410px;
 }
 
@@ -16,6 +16,13 @@ p{
 
 #blueBall {
     position : absolute;
+}
+
+#land{
+    position : relative;
+    height : 5px;
+    background-color : brown;
+    top : 405px;
 }
 
 #buttons{

@@ -7,14 +7,17 @@
 
     <body>
         <div id="main">
-            <div id="blueBall" style="left:128px; top:8px;">
+            <div id="blueBall" style="left:1px; top:1px;">
                 <img src="img/bb01.gif">
             </div>
+            <div id="land" style="width:200px; left:600px"></div>
         </div>
         <div id="buttons">
             <a class="left-button" href="JavaScript:gameStart()">開始</a>
             <a class="left-button" href="JavaScript:gameStop()">停止</a>
-            <a class="left-button" href="JavaScript:braking()">減速</a>
+            <a class="left-button" href="JavaScript:accelerateX()">X加速</a>
+            <a class="left-button" href="JavaScript:brakingX()">X減速</a>
+            <a class="left-button" href="JavaScript:brakingY()">Y減速</a>
             <a class="right-button" href="JavaScript:restart()">リスタート</a>
         </div>
         
