@@ -24,13 +24,12 @@ var landWidth = defLandWidth; //地面幅
 
 var timer;　//タイマー
 
+
 //ボールを座標指定
 function setPosition(id, x, y) {
     document.getElementById(id).style.left = x;
     document.getElementById(id).style.top  = y;		  
 }
-
-
 
 //ボールのX座標取得
 function getX(id){
@@ -81,10 +80,11 @@ function levelApply(){
     document.getElementById("level-num").innerHTML=level;
 }
 
+//ゲーム動作
 function gameBody() {
     moveBall(veloX,veloY);
     
-    if(getX("blueBall") > 800){
+    if(getX("blueBall") > 800 || getX("blueBall") < defPosition[0]){
         alert("着陸失敗・・・(壁に衝突)。 またレベル"+ defLevel +"からチャレンジ！");
         reset();
     }
@@ -96,7 +96,7 @@ function gameBody() {
         reset();
     }
     else{
-        if(veloX < winLose){
+        if(veloY < winLose){
             if(level >= maxLevel){
                 alert("着陸成功！(時速" + (Math.round(veloY * 10) / 10) + "km)。 最大レベルクリア！");
                 reset();
@@ -116,32 +116,41 @@ function gameBody() {
 
 //開始
 function gameStart(){
-    timer = setInterval("gameBody()", 50);
+    if(timer == null){
+        timer = setInterval("gameBody()", 50);
+    }
 }
 
 //停止
 function gameStop(){
     clearInterval(timer);
+    timer = null;
 }
 
 //X加速
 function accelerateX(){
-    veloX += accelX;
+    if(timer =! null){
+        veloX += accelX;
+    }
 }
 
 //X減速
 function brakingX(){
-    veloX -= brakeX;
+    if(timer =! null){
+        veloX -= brakeX;
+    }
 }
 
 //Y減速
 function brakingY(){
-    veloY -= brakeY;
+    if(timer =! null){
+        veloY -= brakeY;
+    }
 }
 
 //リスタート
 function restart(){
-    clearInterval(timer);
+    gameStop();
     setPosition("blueBall", defPosition[0], defPosition[1]);
     veloX = defVeloX;
     veloY = defVeloY;
@@ -155,6 +164,30 @@ function reset(){
     restart();
 }
 
+//キーボード操作
+document.onkeydown = keydown;
+function keydown() {
+    if(event.keyCode == 90){
+        gameStart(); //「z」で開始
+    }
+    else if(event.keyCode == 88){
+        gameStop(); //「x」で停止
+    }
+    else if(event.keyCode == 67){
+        restart(); //「c」でリスタート
+    }
+    else if(event.keyCode == 39){
+        accelerateX(); //「→」でX加速
+    }
+    else if(event.keyCode == 37){
+        brakingX(); //「←」でX減速
+    }
+    else if(event.keyCode == 38){
+        brakingY(); //「↑」でY減速
+    }
+}
+
+//アクセス時初期化
 window.onload = function(){
     restart();
 }
