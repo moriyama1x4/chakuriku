@@ -143,9 +143,12 @@ function brakingX(){
 
 //Y減速
 function brakingY(){
+    console.log(timer);
     if(timer =! null){
         veloY -= brakeY;
     }
+    console.log(timer);
+    
 }
 
 //リスタート
@@ -190,4 +193,5 @@ function keydown() {
 //アクセス時初期化
 window.onload = function(){
     restart();
+    console.log(timer);
 }
