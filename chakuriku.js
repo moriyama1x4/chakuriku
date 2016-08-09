@@ -15,7 +15,7 @@ var brakeY = 1; //Y減速度
 var defWinLose = 6; //デフォルト勝敗判定値
 var winLose = defWinLose; //勝敗判定値
 
-var defLevel = 1; //デフォルトレベル
+var defLevel = 3; //デフォルトレベル
 var maxLevel = 5; //最大レベル
 var level = defLevel; //レベル
 
@@ -73,21 +73,27 @@ function getLandRight(){
     return parseInt(document.getElementById("land").style.width) + getLandLeft() ;
 }
 
+//レベル適用
+function levelApply(){
+    accelY = defAccelY + ((level - 1) * 0.05);
+    winLose = defWinLose - ((level - 1) * 1);
+    landWidth = defLandWidth - ((level - 1) * 50);
+    document.getElementById("level-num").innerHTML=level;
+}
+
 function gameBody() {
     moveBall(veloX,veloY);
     
     if(getX("blueBall") > 800){
-        alert("着陸失敗・・・(壁に衝突)。 またレベル1からチャレンジ！");
+        alert("着陸失敗・・・(壁に衝突)。 またレベル"+ defLevel +"からチャレンジ！");
         reset();
-        restart();
     }
     else if(getY("blueBall") < 400){
         veloY += accelY;
     }
     else if(getX("blueBall") < getLandLeft() || getX("blueBall") > getLandRight()){
-        alert("着陸失敗・・・(地面に着地できなかった)。 またレベル1からチャレンジ！");
+        alert("着陸失敗・・・(地面に着地できなかった)。 またレベル"+ defLevel +"からチャレンジ！");
         reset();
-        restart();
     }
     else{
         if(veloX < winLose){
@@ -98,18 +104,13 @@ function gameBody() {
             else{
                 alert("着陸成功！(時速" + (Math.round(veloY * 10) / 10) + "km)。 レベル"　+ (level+1) + "にチャレンジ！");
                 level ++;
-                accelY = defAccelY + ((level - defLevel) * 0.05);
-                winLose = defWinLose - ((level - defLevel) * 1);
-                landWidth = defLandWidth - ((level - defLevel) * 50);
-                setRandLand();
-                document.getElementById("level-num").innerHTML=level;
+                restart();
             }
         }
         else{
-            alert("着陸失敗・・・(時速" + (Math.round(veloY * 10) / 10) + "km)。 またレベル1からチャレンジ！");
+            alert("着陸失敗・・・(時速" + (Math.round(veloY * 10) / 10) + "km)。 またレベル"+ defLevel +"からチャレンジ！");
             reset();
         }
-        restart();
     }
 }
 
@@ -144,16 +145,14 @@ function restart(){
     setPosition("blueBall", defPosition[0], defPosition[1]);
     veloX = defVeloX;
     veloY = defVeloY;
+    levelApply();
     setRandLand();
 }
 
 //リセット
 function reset(){
     level = defLevel;
-    accelY = defAccelY;
-    winLose = defWinLose;
-    landWidth = defLandWidth;
-    document.getElementById("level-num").innerHTML=defLevel;
+    restart();
 }
 
 window.onload = function(){
