@@ -69,7 +69,7 @@ function getLandLeft(){
 
 //地面の右端座標取得
 function getLandRight(){
-    return parseInt(document.getElementById("land").style.width) + getLandLeft() ;
+    return landWidth + getLandLeft() ;
 }
 
 //レベル適用
@@ -84,7 +84,7 @@ function levelApply(){
 function gameBody() {
     moveBall(veloX,veloY);
     
-    if(getX("blueBall") > 800 || getX("blueBall") < defPosition[0]){
+    if(getX("blueBall") > 800 || getX("blueBall") < defPosition[0] || getY("blueBall") < 8){
         alert("着陸失敗・・・(壁に衝突)。 またレベル"+ defLevel +"からチャレンジ！");
         reset();
     }
