@@ -129,26 +129,23 @@ function gameStop(){
 
 //X加速
 function accelerateX(){
-    if(timer =! null){
+    if(timer != null){
         veloX += accelX;
     }
 }
 
 //X減速
 function brakingX(){
-    if(timer =! null){
+    if(timer != null){
         veloX -= brakeX;
     }
 }
 
 //Y減速
 function brakingY(){
-    console.log(timer);
-    if(timer =! null){
+    if(timer != null){
         veloY -= brakeY;
     }
-    console.log(timer);
-    
 }
 
 //リスタート
@@ -193,5 +190,4 @@ function keydown() {
 //アクセス時初期化
 window.onload = function(){
     restart();
-    console.log(timer);
 }
