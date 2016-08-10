@@ -1,11 +1,10 @@
 "use strict";
 
 class Ball {
-  constructor(id, x = 0, y = 0) {
+  constructor(id, x = 0, y = 0, vx = 10, vy = 0) {
     this.id = id;
     this.moveTo(x, y);
-    this.vx = 10;
-    this.vy = 0;
+    this.velocity(vx, vy);
   }
 
   move() {
@@ -20,6 +19,11 @@ class Ball {
   moveTo(x, y) {
     this.x = x;
     this.y = y;
+  }
+
+  velocity(vx, vy) {
+    this.vx = vx;
+    this.vy = vy;
   }
 
   accelerate(dvx, dvy) {

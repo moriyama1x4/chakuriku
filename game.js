@@ -29,6 +29,7 @@
 
   function changeLevel(level) {
     ball.moveTo(0, 0);
+    ball.velocity(10, 0);
     stage = new Stage(level);
     repaint();
   }
