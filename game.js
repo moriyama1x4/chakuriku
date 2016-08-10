@@ -1,15 +1,15 @@
 'use strict';
-(function(){
+(() => {
 
-  var timer;
-  var stage;
-  var ball;
+  let timer;
+  let stage;
+  let ball;
   const DEF_LEVEL = 1;
   const MAX_LEVEL = 5;
   const TIME_INTERVAL_MS = 50;
 
   function start() {
-    if(!timer) {
+    if (!timer) {
       timer = setInterval(main, TIME_INTERVAL_MS);
     }
   }
@@ -20,7 +20,7 @@
   }
 
   function reset() {
-    if(!!timer) {
+    if (timer) {
       pause();
     }
     ball = new Ball('blueBall');
@@ -47,17 +47,17 @@
     ball.accelerate(0, stage.gravity);
     ball.move();
 
-    if(ball.x < 0 || 800 < ball.x || ball.y < 0) {
+    if (ball.x < 0 || 800 < ball.x || ball.y < 0) {
       alert("着陸失敗・・・(壁に衝突)。 またレベル"+ DEF_LEVEL +"からチャレンジ！");
       reset();
-    } else if(ball.y > 400) {
-      if(ball.x < stage.land.x || stage.land.x + stage.land.width < ball.x) {
+    } else if (ball.y > 400) {
+      if (ball.x < stage.land.x || stage.land.x + stage.land.width < ball.x) {
         alert("着陸失敗・・・(地面に着地できなかった)。 またレベル"+ DEF_LEVEL +"からチャレンジ！");
       } else if (stage.threshold < ball.vy) {
         alert("着陸失敗・・・(時速" + ball.vy.toFixed(1) + "km)。 またレベル"+ DEF_LEVEL +"からチャレンジ！");
       } else {
         // 成功!!
-        if(stage.level < MAX_LEVEL) {
+        if (stage.level < MAX_LEVEL) {
           alert("着陸成功！(時速" + ball.vy.toFixed(1) + "km)。 レベル"　+ (stage.level + 1) + "にチャレンジ！");
           pause();
           changeLevel(stage.level + 1);
@@ -73,15 +73,11 @@
   }
 
   //キーボード操作
-  document.addEventListener("keydown", function(e){
+  document.addEventListener('keydown', e => {
     switch (e.keyCode) {
     case 32:
       // space keyで開始/停止の切り替え
-      if(!timer) {
-        start();
-      } else {
-        pause();
-      }
+      timer? pause(): start();
       break;
     case 27:
       reset(); // Esc keyでリセット
@@ -99,8 +95,6 @@
   });
 
   //アクセス時初期化
-  window.onload = function(){
-    reset();
-  }
+  window.onload = () => reset();
 
 })();
