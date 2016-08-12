@@ -1,21 +1,24 @@
 "use strict";
 
 class Ball {
-  constructor(id, x = 0, y = 0, vx = 10, vy = 0) {
+  constructor(id, x = 8, y = 200, vx = 5, vy = -5) {
     this.id = id;
     this.moveTo(x, y);
     this.velocity(vx, vy);
   }
 
   move() {
-    this.moveBy(this.vx, this.vy);
+    this.x += this.vx;
+    this.y += this.vy;
   }
 
+/*
   moveBy(dx, dy) {
     this.x += dx;
     this.y += dy;
-  }
-
+  } 
+*/
+  
   moveTo(x, y) {
     this.x = x;
     this.y = y;
@@ -43,15 +46,15 @@ class Stage {
   // calc系メソッドの中身は適当
 
   calcGravity() {
-    return 0.5 * this.level;
+    return 0.05 * this.level;
   }
 
   calcThreshold() {
-    return 20 * this.level;
+    return 7 - this.level;
   }
 
   calcLand() {
-    let w = 400 - 50 * this.level;
+    let w = 300 - 50 * this.level;
     return {x: Math.random() * (400 - w) + 400, y: 400, width: w};
   }
 }

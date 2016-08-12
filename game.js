@@ -4,7 +4,7 @@
   let timer;
   let stage;
   let ball;
-  const DEF_LEVEL = 1;
+  const DEF_LEVEL = 3;
   const MAX_LEVEL = 5;
   const TIME_INTERVAL_MS = 50;
 
@@ -23,13 +23,11 @@
     if (timer) {
       pause();
     }
-    ball = new Ball('blueBall');
     changeLevel(DEF_LEVEL);
   }
 
   function changeLevel(level) {
-    ball.moveTo(0, 0);
-    ball.velocity(10, 0);
+    ball = new Ball('blueBall');
     stage = new Stage(level);
     repaint();
   }
@@ -68,7 +66,6 @@
       }
       reset();
     }
-
     repaint();
   }
 
@@ -83,13 +80,13 @@
       reset(); // Esc keyでリセット
       break;
     case 39:
-      ball.accelerate(5, 0); //「→」でX加速
+      ball.accelerate(1, 0); //「→」でX加速
       break;
     case 37:
-      ball.accelerate(-5, 0); //「←」でX減速
+      ball.accelerate(-1, 0); //「←」でX減速
       break;
     case 38:
-      ball.accelerate(0, -5); //「↑」でY減速
+      ball.accelerate(0, -1); //「↑」でY減速
       break;
     }
   });
